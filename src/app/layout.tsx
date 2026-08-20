@@ -11,9 +11,9 @@ const notoSansTC = Noto_Sans_TC({
 });
 
 export const metadata: Metadata = {
-  title: "ReVoice 子計畫三・專案管理中心",
+  title: "AIITNTPU 子計畫三・專案管理中心",
   description:
-    "以國科會 ReVoice 研究計畫子計畫三的實際工作內容為基礎，展示研究專案的時程規劃、團隊分工與 AI 智能進度摘要。",
+    "以國科會 AIITNTPU 研究計畫子計畫三的實際工作內容為基礎，展示研究專案的時程規劃、團隊分工與 AI 智能進度摘要。",
 };
 
 export default function RootLayout({

@@ -20,8 +20,8 @@ export default function Nav() {
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-sm text-white">
             R3
           </span>
-          <span className="hidden sm:inline">ReVoice 子計畫三・專案中心</span>
-          <span className="sm:hidden">ReVoice Hub</span>
+          <span className="hidden sm:inline">AIITNTPU 子計畫三・專案中心</span>
+          <span className="sm:hidden">AIITNTPU 子計畫三</span>
         </Link>
         <nav className="flex flex-wrap items-center gap-1 text-sm">
           {links.map((link) => {
