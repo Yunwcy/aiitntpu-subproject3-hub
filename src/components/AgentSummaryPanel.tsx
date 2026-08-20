@@ -87,7 +87,7 @@ export default function AgentSummaryPanel() {
               AI Agent 智能進度摘要
             </h3>
             <p className="mt-1 text-xs text-slate-400">
-              伺服器端即時呼叫 Claude，依目前專案資料產出進度摘要、風險提醒與下一步建議。
+              伺服器端即時呼叫 OpenAI，依目前專案資料產出進度摘要、風險提醒與下一步建議。
             </p>
           </div>
         </div>
@@ -111,7 +111,7 @@ export default function AgentSummaryPanel() {
         <p className="mt-2 text-xs text-slate-400">
           {status.configured
             ? `今日剩餘可用次數：${status.remaining} / ${status.limit}（這是我自己出的 API 額度，公開展示用途，設有每日上限）`
-            : "此環境尚未設定 ANTHROPIC_API_KEY，暫時無法呼叫即時 AI 摘要 — 可以先看下方範例輸出。"}
+            : "此環境尚未設定 OPENAI_API_KEY，暫時無法呼叫即時 AI 摘要 — 可以先看下方範例輸出。"}
         </p>
       )}
 
