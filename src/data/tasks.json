@@ -123,17 +123,30 @@
     "dependsOn": ["t9"]
   },
   {
-    "id": "t11",
-    "title": "勵友中心知識庫建置與 GCP 上線",
-    "description": "將爬蟲資料建置為知識庫，並部署上線至 GCP。",
+    "id": "t61",
+    "title": "勵友中心知識庫建置",
+    "description": "將爬蟲資料清理、切割並建置為 RAG 檢索用知識庫（向量化、索引）。",
     "phaseId": "y2",
     "assigneeIds": ["wendy", "yun"],
     "startDate": "2025-04-18",
-    "endDate": "2025-04-30",
+    "endDate": "2025-04-23",
     "status": "done",
     "priority": "high",
     "category": "GCP 部署",
     "dependsOn": ["t10"]
+  },
+  {
+    "id": "t62",
+    "title": "勵友中心 LINE Bot 建置與 GCP 上線",
+    "description": "建置勵友中心專屬 LINE Bot，串接 LINE Messaging API 與知識庫，部署上線至 GCP。",
+    "phaseId": "y2",
+    "assigneeIds": ["wendy", "yun"],
+    "startDate": "2025-04-23",
+    "endDate": "2025-04-30",
+    "status": "done",
+    "priority": "high",
+    "category": "GCP 部署",
+    "dependsOn": ["t61"]
   },
   {
     "id": "t43",
@@ -146,7 +159,7 @@
     "status": "done",
     "priority": "medium",
     "category": "系統除錯維運",
-    "dependsOn": ["t11"]
+    "dependsOn": ["t62"]
   },
   {
     "id": "t44",
@@ -239,17 +252,30 @@
     "dependsOn": ["t12"]
   },
   {
-    "id": "t14",
-    "title": "行無礙資源推廣協會知識庫建置與 GCP 上線",
-    "description": "將爬蟲資料建置為知識庫，並部署上線至 GCP。",
+    "id": "t63",
+    "title": "行無礙資源推廣協會知識庫建置",
+    "description": "將爬蟲資料清理、切割並建置為 RAG 檢索用知識庫（向量化、索引）。",
     "phaseId": "y2",
     "assigneeIds": ["wendy", "yun"],
     "startDate": "2025-05-01",
-    "endDate": "2025-05-12",
+    "endDate": "2025-05-06",
     "status": "done",
     "priority": "high",
     "category": "GCP 部署",
     "dependsOn": ["t13"]
+  },
+  {
+    "id": "t64",
+    "title": "行無礙資源推廣協會 LINE Bot 建置與 GCP 上線",
+    "description": "建置行無礙資源推廣協會專屬 LINE Bot，串接 LINE Messaging API 與知識庫，部署上線至 GCP。",
+    "phaseId": "y2",
+    "assigneeIds": ["wendy", "yun"],
+    "startDate": "2025-05-06",
+    "endDate": "2025-05-12",
+    "status": "done",
+    "priority": "high",
+    "category": "GCP 部署",
+    "dependsOn": ["t63"]
   },
   {
     "id": "t15",
@@ -412,17 +438,30 @@
     "dependsOn": ["t26"]
   },
   {
-    "id": "t28",
-    "title": "桃園市北區輔具資源中心知識庫建置與 GCP 上線",
-    "description": "將爬蟲資料建置為知識庫，並部署上線至 GCP。",
+    "id": "t65",
+    "title": "桃園市北區輔具資源中心知識庫建置",
+    "description": "將爬蟲資料清理、切割並建置為 RAG 檢索用知識庫（向量化、索引）。",
     "phaseId": "y3",
     "assigneeIds": ["wendy", "yun"],
     "startDate": "2025-07-25",
-    "endDate": "2025-08-08",
+    "endDate": "2025-07-31",
     "status": "done",
     "priority": "high",
     "category": "GCP 部署",
     "dependsOn": ["t27"]
+  },
+  {
+    "id": "t66",
+    "title": "桃園市北區輔具資源中心 LINE Bot 建置與 GCP 上線",
+    "description": "建置桃園輔具中心專屬 LINE Bot，串接 LINE Messaging API 與知識庫，部署上線至 GCP。",
+    "phaseId": "y3",
+    "assigneeIds": ["wendy", "yun"],
+    "startDate": "2025-07-31",
+    "endDate": "2025-08-08",
+    "status": "done",
+    "priority": "high",
+    "category": "GCP 部署",
+    "dependsOn": ["t65"]
   },
   {
     "id": "t49",
@@ -435,7 +474,7 @@
     "status": "done",
     "priority": "medium",
     "category": "系統除錯維運",
-    "dependsOn": ["t28"]
+    "dependsOn": ["t66"]
   },
   {
     "id": "t50",
@@ -554,17 +593,30 @@
     "dependsOn": ["t29"]
   },
   {
-    "id": "t31",
-    "title": "連江縣早期療育資源中心知識庫建置與 GCP 上線",
-    "description": "將爬蟲資料建置為知識庫，並部署上線至 GCP。",
+    "id": "t67",
+    "title": "連江縣早期療育資源中心知識庫建置",
+    "description": "將爬蟲資料清理、切割並建置為 RAG 檢索用知識庫（向量化、索引）。",
     "phaseId": "y3",
     "assigneeIds": ["wendy", "yun"],
     "startDate": "2025-10-25",
-    "endDate": "2025-11-04",
+    "endDate": "2025-10-29",
     "status": "done",
     "priority": "high",
     "category": "GCP 部署",
     "dependsOn": ["t30"]
+  },
+  {
+    "id": "t68",
+    "title": "連江縣早期療育資源中心 LINE Bot 建置與 GCP 上線",
+    "description": "建置馬祖早療中心專屬 LINE Bot，串接 LINE Messaging API 與知識庫，部署上線至 GCP。",
+    "phaseId": "y3",
+    "assigneeIds": ["wendy", "yun"],
+    "startDate": "2025-10-29",
+    "endDate": "2025-11-04",
+    "status": "done",
+    "priority": "high",
+    "category": "GCP 部署",
+    "dependsOn": ["t67"]
   },
   {
     "id": "t57",
@@ -577,7 +629,7 @@
     "status": "done",
     "priority": "high",
     "category": "系統除錯維運",
-    "dependsOn": ["t31"]
+    "dependsOn": ["t68"]
   },
   {
     "id": "t58",
@@ -682,12 +734,24 @@
   },
   {
     "id": "t37",
-    "title": "國科會計畫成果發表會（校內）簡報與影片製作",
-    "description": "準備並製作計畫整體成果發表會的簡報與展示影片，於 2026/04/30 校內發表會展出。",
+    "title": "國科會計畫成果發表會簡報製作",
+    "description": "製作計畫整體成果發表會的簡報，於 2026/04/30 校內發表會展出。",
     "phaseId": "y3",
-    "assigneeIds": ["yun", "wendy"],
+    "assigneeIds": ["yun"],
     "startDate": "2026-04-01",
-    "endDate": "2026-04-30",
+    "endDate": "2026-04-25",
+    "status": "done",
+    "priority": "high",
+    "category": "文件"
+  },
+  {
+    "id": "t69",
+    "title": "國科會計畫成果發表會展示影片製作",
+    "description": "拍攝與剪輯計畫成果展示影片，於 2026/04/30 校內發表會展出；與簡報製作同期進行，分工並行。",
+    "phaseId": "y3",
+    "assigneeIds": ["wendy", "yun"],
+    "startDate": "2026-04-05",
+    "endDate": "2026-04-28",
     "status": "done",
     "priority": "high",
     "category": "文件"
