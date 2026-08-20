@@ -1,0 +1,116 @@
+[
+  {
+    "id": "r1",
+    "orgName": "中華民國腦性麻痺協會",
+    "orgNameEn": "The Cerebral Palsy Association of R.O.C.",
+    "date": "2024-10-16",
+    "attendees": ["Yun（子計畫三）", "組織代表（計畫成果發表會）"],
+    "painPoints": [
+      "系統上線後，第一線人員反映部分口語化提問無法準確匹配知識庫",
+      "服務對象背景多元，需要更貼近日常用語的回覆語氣"
+    ],
+    "requirements": [
+      "補充更多口語化問法的知識庫樣本",
+      "持續追蹤上線後的實際使用回饋，作為優化依據"
+    ],
+    "actionItems": ["彙整發表會蒐集到的回饋，排入知識庫優化項目"],
+    "status": "已上線服務"
+  },
+  {
+    "id": "r2",
+    "orgName": "台灣漸凍人協會",
+    "orgNameEn": "Taiwan Motor Neuron Disease Association",
+    "date": "2024-10-17",
+    "attendees": ["Yun（子計畫三）", "組織代表（計畫成果發表會）"],
+    "painPoints": [
+      "病友病程進展中對替代溝通工具的需求持續變化，既有知識庫更新頻率不足"
+    ],
+    "requirements": [
+      "建立知識庫定期更新機制，涵蓋病程照護與輔具最新資訊"
+    ],
+    "actionItems": ["排入第三年語音個人化功能（語者微調）評估範圍"],
+    "status": "已上線服務"
+  },
+  {
+    "id": "r3",
+    "orgName": "陽光社會福利基金會",
+    "orgNameEn": "Sunshine Social Welfare Foundation",
+    "date": "2024-10-18",
+    "attendees": ["Yun（子計畫三）", "組織代表（計畫成果發表會）"],
+    "painPoints": [
+      "服務對象背景多元，回覆需要更明確地依問題類別分流"
+    ],
+    "requirements": ["強化問題分類標籤，方便後續資料分析與知識庫維護"],
+    "actionItems": ["建立分類標籤機制，回饋給知識庫維護流程"],
+    "status": "已上線服務"
+  },
+  {
+    "id": "r4",
+    "orgName": "台北市基督教勵友中心",
+    "orgNameEn": "Good Friend Mission",
+    "date": "2025-04-01",
+    "attendees": ["Yun（子計畫三）", "青少年服務窗口"],
+    "painPoints": [
+      "服務對象涵蓋青少年族群，對制式官方語氣接受度較低",
+      "需求解決不了時，要能明確導向真人窗口"
+    ],
+    "requirements": [
+      "回覆語氣需更貼近日常對話，降低距離感",
+      "設計超出系統能力範圍時的轉真人流程"
+    ],
+    "actionItems": [
+      "調整知識庫語氣與用詞",
+      "線上會議進一步確認細節（1–2 次）",
+      "設計轉真人窗口流程並上線測試"
+    ],
+    "status": "已上線服務"
+  },
+  {
+    "id": "r5",
+    "orgName": "行無礙資源推廣協會",
+    "orgNameEn": "Taiwan Access for All Association",
+    "date": "2025-03-10",
+    "attendees": ["Yun（子計畫三）", "資訊組窗口"],
+    "painPoints": ["無障礙資源資訊分散在多個管道，服務對象不易一次找齊"],
+    "requirements": [
+      "整合官網既有資訊作為知識庫來源，避免資訊落差",
+      "需定期更新資源資訊，確保回覆時效性"
+    ],
+    "actionItems": ["建立官網資訊爬蟲蒐集管線", "規劃知識庫定期更新機制"],
+    "status": "已上線服務"
+  },
+  {
+    "id": "r6",
+    "orgName": "桃園市北區輔具資源中心",
+    "orgNameEn": "Taoyuan North District Assistive Technology Center",
+    "date": "2025-06-01",
+    "attendees": ["Yun（子計畫三）", "輔具評估師"],
+    "painPoints": ["輔具諮詢涉及專業判斷，一般 FAQ 難以完整涵蓋個案情境"],
+    "requirements": [
+      "系統應清楚標示回覆的資訊來源與適用範圍",
+      "複雜個案問題需明確引導轉介專業評估"
+    ],
+    "actionItems": [
+      "訂定系統可回答範圍與應轉介情境的界線",
+      "線上會議進一步確認細節（1–2 次）"
+    ],
+    "status": "已上線服務"
+  },
+  {
+    "id": "r7",
+    "orgName": "連江縣早期療育資源中心",
+    "orgNameEn": "Matsu Early Intervention Resource Center",
+    "date": "2025-09-01",
+    "attendees": ["Yun（子計畫三）", "早療社工"],
+    "painPoints": ["離島地區專業人力與資源相對稀缺，家長取得資訊管道有限"],
+    "requirements": [
+      "系統需在網路頻寬有限的情境下仍能穩定運作",
+      "需涵蓋早療相關的基礎衛教與資源申請資訊"
+    ],
+    "actionItems": [
+      "優先以輕量化 LINE Bot 介面服務離島環境",
+      "線上會議進一步確認細節（1–2 次）"
+    ],
+    "status": "已上線服務"
+  }
+]

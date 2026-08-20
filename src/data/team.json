@@ -1,0 +1,47 @@
+[
+  {
+    "id": "yun",
+    "name": "Yun",
+    "origin": "台灣・專案負責人",
+    "role": "子計畫負責人 / 系統架構師",
+    "focus": [
+      "需求訪談",
+      "系統架構設計",
+      "跨組織協調",
+      "系統除錯維運",
+      "LINE Bot 開發",
+      "GCP 部署",
+      "文件撰寫",
+      "爬蟲整合"
+    ],
+    "initials": "YU",
+    "color": "emerald"
+  },
+  {
+    "id": "wendy",
+    "name": "Wendy",
+    "origin": "台灣",
+    "role": "資料與部署工程師",
+    "focus": ["爬蟲資料蒐集", "LINE Bot 開發", "GCP 部署", "文件撰寫"],
+    "initials": "WD",
+    "color": "sky"
+  },
+  {
+    "id": "rachel",
+    "name": "Rachel",
+    "origin": "台灣",
+    "role": "多模態 AI 工程師",
+    "focus": ["多模態系統建置", "模型選型"],
+    "initials": "RC",
+    "color": "violet"
+  },
+  {
+    "id": "daniel",
+    "name": "Daniel",
+    "origin": "外籍研究助理・2025 年中加入",
+    "role": "多語言品質工程師",
+    "focus": ["英文／越南語模型測試", "模型效能分析", "多語言回覆品質"],
+    "initials": "DN",
+    "color": "amber"
+  }
+]

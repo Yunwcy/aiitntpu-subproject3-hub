@@ -1,0 +1,20 @@
+[
+  {
+    "id": "y2",
+    "name": "第二年（接手與架構重建）",
+    "nameEn": "Year 2 — Onboarding & Architecture Rebuild",
+    "description": "加入團隊時，系統已與腦麻協會、漸凍人協會、陽光基金會 3 家組織上線試營運（非 RAG 架構、本地 ngrok 部署）。這一年主導系統重新爬蟲、轉為 RAG 架構、正式移轉 GCP 部署，並在下學期開始主導新組織的需求訪談，將合作組織拓展到 5 家。",
+    "startDate": "2024-08-01",
+    "endDate": "2025-07-31",
+    "status": "done"
+  },
+  {
+    "id": "y3",
+    "name": "第三年（碩二，主導擴張與收尾）",
+    "nameEn": "Year 3 — Led Expansion & Project Closeout",
+    "description": "延續第二年落差項目（多語言語音涵蓋度、影像模態），依修正後目標推進：強化 ASR/TTS 多語涵蓋、NLU/NLG 一致性、整合影像模組、完成 Gradio 多模態平台，主導 2 家新組織導入（合作組織累計達 7 家），並於 2026/07 完成最終結案報告、2026/08 起進行交接。",
+    "startDate": "2025-08-01",
+    "endDate": "2026-09-15",
+    "status": "in-progress"
+  }
+]
