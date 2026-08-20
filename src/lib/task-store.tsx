@@ -64,10 +64,20 @@ export function TaskStoreProvider({ children }: { children: ReactNode }) {
     setHydrated(true);
   }, []);
 
+  // Only persist while there are actual local edits. If we wrote on every
+  // change unconditionally, a reset would immediately re-save a frozen
+  // snapshot of "default" tasks — silently pinning the browser to whatever
+  // the seed data looked like at that moment, even after later updates to
+  // the underlying data file. Keeping storage empty whenever !isDirty means
+  // "no override" always means "use the latest seed data".
   useEffect(() => {
     if (!hydrated) return;
+    if (!isDirty) {
+      window.localStorage.removeItem(STORAGE_KEY);
+      return;
+    }
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
-  }, [tasks, hydrated]);
+  }, [tasks, isDirty, hydrated]);
 
   const addTask = useCallback((input: NewTaskInput) => {
     setTasks((prev) => {

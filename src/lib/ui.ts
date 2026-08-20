@@ -14,13 +14,6 @@ export const statusChipClass: Record<TaskStatus, string> = {
   blocked: "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300",
 };
 
-export const statusBarClass: Record<TaskStatus, string> = {
-  done: "bg-brand-500",
-  "in-progress": "bg-sky-500",
-  todo: "bg-slate-300 dark:bg-slate-600",
-  blocked: "bg-rose-500",
-};
-
 export const priorityLabel: Record<Priority, string> = {
   high: "高",
   medium: "中",
@@ -47,6 +40,52 @@ export const memberChipClass: Record<string, string> = {
   violet: "bg-violet-50 text-violet-700 dark:bg-violet-950/40 dark:text-violet-300",
   amber: "bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300",
 };
+
+// Gantt bar fill: hue = primary (first-listed) assignee's member color,
+// lightness/opacity = status. In-progress reads as solid and dark so it
+// stands out; done fades to a light, translucent tint of the same hue;
+// todo sits in between. Blocked keeps the solid fill but gets flagged
+// separately with a ring (see blockedRingClass below) rather than its own
+// hue, so "who owns it" stays legible even when something is stuck.
+export const memberBarClass: Record<string, Record<TaskStatus, string>> = {
+  emerald: {
+    done: "bg-emerald-400/35",
+    "in-progress": "bg-emerald-600",
+    todo: "bg-emerald-400/70",
+    blocked: "bg-emerald-600",
+  },
+  sky: {
+    done: "bg-sky-400/35",
+    "in-progress": "bg-sky-600",
+    todo: "bg-sky-400/70",
+    blocked: "bg-sky-600",
+  },
+  violet: {
+    done: "bg-violet-400/35",
+    "in-progress": "bg-violet-600",
+    todo: "bg-violet-400/70",
+    blocked: "bg-violet-600",
+  },
+  amber: {
+    done: "bg-amber-400/35",
+    "in-progress": "bg-amber-600",
+    todo: "bg-amber-400/70",
+    blocked: "bg-amber-600",
+  },
+};
+
+// Priority reads as a ring around the bar — thicker/darker ring = higher
+// priority — independent of the member-color fill so both signals stay
+// readable at once.
+export const priorityRingClass: Record<Priority, string> = {
+  high: "ring-2 ring-slate-900/70 dark:ring-white/80",
+  medium: "ring-1 ring-slate-900/35 dark:ring-white/40",
+  low: "",
+};
+
+// Blocked tasks get a dashed rose ring regardless of priority — it's a
+// status alert that should cut across the priority/member encoding.
+export const blockedRingClass = "ring-2 ring-rose-500 dark:ring-rose-400";
 
 // Canonical display order for task categories (a lightweight work-breakdown
 // structure) — the Gantt and category views group rows by this order rather

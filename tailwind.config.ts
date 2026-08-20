@@ -6,6 +6,11 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    // Several components build class names from lookup tables that live in
+    // lib/ui.ts (member/status/priority color maps). Without this glob,
+    // Tailwind's static scanner never sees those class-name strings and
+    // silently drops them from the generated CSS — see lib/ui.ts.
+    "./src/lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {

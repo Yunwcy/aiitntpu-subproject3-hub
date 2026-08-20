@@ -1,10 +1,13 @@
 import type { Task, TeamMember } from "@/lib/types";
 import { buildMonthSegments, daysBetween } from "@/lib/gantt";
 import {
+  blockedRingClass,
   formatDate,
+  memberBarClass,
   memberColorClass,
+  priorityLabel,
+  priorityRingClass,
   sortCategories,
-  statusBarClass,
   statusLabel,
 } from "@/lib/ui";
 
@@ -17,13 +20,6 @@ interface GanttChartProps {
 
 const DAY_WIDTH = 7; // px per day
 const LEFT_COL_WIDTH = 280; // px
-
-const LEGEND: { status: Task["status"]; label: string }[] = [
-  { status: "done", label: "已完成" },
-  { status: "in-progress", label: "進行中" },
-  { status: "todo", label: "待開始" },
-  { status: "blocked", label: "卡關中" },
-];
 
 // Grouped by responsibility / work category (a lightweight WBS) rather than
 // by project phase — this makes "who owns what" the primary read, while the
@@ -52,14 +48,51 @@ export default function GanttChart({ tasks, team, snapshotDate, onTaskClick }: G
 
   return (
     <div className="card overflow-hidden">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-4 py-3 dark:border-slate-800">
-        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-          {LEGEND.map((l) => (
-            <span key={l.status} className="flex items-center gap-1.5">
-              <span className={`h-2.5 w-2.5 rounded-full ${statusBarClass[l.status]}`} />
-              {l.label}
+      <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-2 border-b border-slate-200 px-4 py-3 dark:border-slate-800">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-slate-400">顏色＝負責人</span>
+            {team.map((m) => (
+              <span key={m.id} className="flex items-center gap-1.5">
+                <span className={`h-2.5 w-2.5 rounded-full ${memberColorClass[m.color]}`} />
+                {m.name}
+              </span>
+            ))}
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-slate-400">深淺＝狀態</span>
+            <span className="flex items-center gap-1">
+              <span className="h-2.5 w-4 rounded-full bg-slate-400/35" />
+              已完成
             </span>
-          ))}
+            <span className="flex items-center gap-1">
+              <span className="h-2.5 w-4 rounded-full bg-slate-500/70" />
+              待開始
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="h-2.5 w-4 rounded-full bg-slate-600" />
+              進行中
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-slate-400">外框＝優先度</span>
+            <span className="flex items-center gap-1">
+              <span className="h-2.5 w-2.5 rounded-full bg-slate-400 ring-2 ring-slate-900/70 dark:ring-white/80" />
+              高
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="h-2.5 w-2.5 rounded-full bg-slate-400 ring-1 ring-slate-900/35 dark:ring-white/40" />
+              中
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="h-2.5 w-2.5 rounded-full bg-slate-400" />
+              低
+            </span>
+            <span className="flex items-center gap-1">
+              <span className={`h-2.5 w-2.5 rounded-full bg-slate-400 ${blockedRingClass}`} />
+              卡關中
+            </span>
+          </div>
           <span className="flex items-center gap-1.5">
             <span className="h-2.5 w-px bg-rose-400" />
             資料快照日
@@ -144,6 +177,12 @@ export default function GanttChart({ tasks, team, snapshotDate, onTaskClick }: G
                     (daysBetween(task.startDate, task.endDate) + 1) * DAY_WIDTH,
                     14,
                   );
+                  const primary = memberMap.get(task.assigneeIds[0] ?? "");
+                  const fillClass = primary
+                    ? memberBarClass[primary.color]?.[task.status]
+                    : undefined;
+                  const ringClass =
+                    task.status === "blocked" ? blockedRingClass : priorityRingClass[task.priority];
                   return (
                     <div
                       key={task.id}
@@ -176,8 +215,8 @@ export default function GanttChart({ tasks, team, snapshotDate, onTaskClick }: G
                         <button
                           type="button"
                           onClick={() => onTaskClick?.(task)}
-                          title={`${task.title}\n${formatDate(task.startDate)} – ${formatDate(task.endDate)}\n${statusLabel[task.status]}`}
-                          className={`absolute top-1/2 h-4 -translate-y-1/2 rounded-full ${statusBarClass[task.status]} opacity-90 transition hover:opacity-100 ${onTaskClick ? "cursor-pointer hover:ring-2 hover:ring-offset-1 hover:ring-brand-400" : ""}`}
+                          title={`${task.title}\n${formatDate(task.startDate)} – ${formatDate(task.endDate)}\n${statusLabel[task.status]} ・ 優先度：${priorityLabel[task.priority]}`}
+                          className={`absolute top-1/2 h-4 -translate-y-1/2 rounded-full ${fillClass ?? "bg-slate-400"} ${ringClass} transition hover:brightness-110 ${onTaskClick ? "cursor-pointer" : ""}`}
                           style={{ left: offset, width }}
                         />
                       </div>
