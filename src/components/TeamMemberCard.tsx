@@ -1,29 +1,42 @@
 import type { Task, TeamMember } from "@/lib/types";
 import { formatDate, memberChipClass, memberColorClass, statusChipClass, statusLabel } from "@/lib/ui";
+import { PencilIcon } from "@/lib/icons";
 
 interface TeamMemberCardProps {
   member: TeamMember;
   tasks: Task[];
+  onEdit?: (member: TeamMember) => void;
 }
 
-export default function TeamMemberCard({ member, tasks }: TeamMemberCardProps) {
+export default function TeamMemberCard({ member, tasks, onEdit }: TeamMemberCardProps) {
   const done = tasks.filter((t) => t.status === "done").length;
   const sorted = [...tasks].sort((a, b) => a.startDate.localeCompare(b.startDate));
 
   return (
     <div className="card p-5">
-      <div className="flex items-center gap-3">
-        <span
-          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white ${memberColorClass[member.color]}`}
-        >
-          {member.initials}
-        </span>
-        <div>
-          <h3 className="font-semibold text-slate-800 dark:text-slate-100">{member.name}</h3>
-          <p className="text-xs text-slate-400">
-            {member.role} ・ {member.origin}
-          </p>
+      <div className="flex items-start justify-between">
+        <div className="flex items-center gap-3">
+          <span
+            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white ${memberColorClass[member.color]}`}
+          >
+            {member.initials}
+          </span>
+          <div>
+            <h3 className="font-semibold text-slate-800 dark:text-slate-100">{member.name}</h3>
+            <p className="text-xs text-slate-400">
+              {member.role} ・ {member.origin}
+            </p>
+          </div>
         </div>
+        {onEdit && (
+          <button
+            onClick={() => onEdit(member)}
+            aria-label={`編輯「${member.name}」`}
+            className="rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+          >
+            <PencilIcon className="h-4 w-4" />
+          </button>
+        )}
       </div>
 
       <div className="mt-3 flex flex-wrap gap-1.5">

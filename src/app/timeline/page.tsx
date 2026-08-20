@@ -4,24 +4,36 @@ import { useMemo, useState } from "react";
 import GanttChart from "@/components/GanttChart";
 import TaskTable from "@/components/TaskTable";
 import TaskFormModal from "@/components/TaskFormModal";
-import { getPhases, getProject, getTeam } from "@/lib/data-provider";
+import FilterChips from "@/components/FilterChips";
+import { getPhases, getProject } from "@/lib/data-provider";
 import { useTaskStore } from "@/lib/task-store";
-import type { Priority, Task, TaskStatus } from "@/lib/types";
-import { categoryOrder, priorityLabel, statusLabel } from "@/lib/ui";
+import { useTeamStore } from "@/lib/team-store";
+import type { Task } from "@/lib/types";
+import { categoryOrder, memberColorClass, priorityLabel, statusLabel } from "@/lib/ui";
 import { GridIcon, ListIcon, PlusIcon, RefreshIcon } from "@/lib/icons";
 
 type ViewMode = "gantt" | "table";
 
-const statusOptions: TaskStatus[] = ["done", "in-progress", "todo", "blocked"];
-const priorityOptions: Priority[] = ["high", "medium", "low"];
+const STATUS_OPTIONS = ["done", "in-progress", "todo", "blocked"] as const;
+const PRIORITY_OPTIONS = ["high", "medium", "low"] as const;
+
+function toggleIn(list: string[], value: string): string[] {
+  return list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
+}
+
+/** yyyy-mm-dd -> yyyy-mm, for month-granularity range comparisons. */
+function toMonth(iso: string): string {
+  return iso.slice(0, 7);
+}
 
 export default function TimelinePage() {
   const [view, setView] = useState<ViewMode>("gantt");
-  const [phaseFilter, setPhaseFilter] = useState<string>("all");
-  const [memberFilter, setMemberFilter] = useState<string>("all");
-  const [categoryFilter, setCategoryFilter] = useState<string>("all");
-  const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [priorityFilter, setPriorityFilter] = useState<string>("all");
+  const [memberFilter, setMemberFilter] = useState<string[]>([]);
+  const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
+  const [statusFilter, setStatusFilter] = useState<string[]>([]);
+  const [priorityFilter, setPriorityFilter] = useState<string[]>([]);
+  const [rangeStart, setRangeStart] = useState(""); // yyyy-mm
+  const [rangeEnd, setRangeEnd] = useState(""); // yyyy-mm
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
@@ -31,36 +43,40 @@ export default function TimelinePage() {
 
   const project = useMemo(() => getProject(), []);
   const phases = useMemo(() => getPhases(), []);
-  const team = useMemo(() => getTeam(), []);
+  const { team } = useTeamStore();
 
   const usedCategories = categoryOrder.filter((c) => allTasks.some((t) => t.category === c));
   const searchTerm = search.trim().toLowerCase();
 
+  const fullRange = useMemo(() => {
+    const dates = allTasks.flatMap((t) => [t.startDate, t.endDate]);
+    if (dates.length === 0) return { min: "", max: "" };
+    return { min: toMonth(dates.reduce((a, b) => (a < b ? a : b))), max: toMonth(dates.reduce((a, b) => (a > b ? a : b))) };
+  }, [allTasks]);
+
   const tasks = allTasks.filter((t) => {
-    if (phaseFilter !== "all" && t.phaseId !== phaseFilter) return false;
-    if (memberFilter !== "all" && !t.assigneeIds.includes(memberFilter)) return false;
-    if (categoryFilter !== "all" && t.category !== categoryFilter) return false;
-    if (statusFilter !== "all" && t.status !== statusFilter) return false;
-    if (priorityFilter !== "all" && t.priority !== priorityFilter) return false;
+    if (memberFilter.length > 0 && !t.assigneeIds.some((id) => memberFilter.includes(id))) return false;
+    if (categoryFilter.length > 0 && !categoryFilter.includes(t.category)) return false;
+    if (statusFilter.length > 0 && !statusFilter.includes(t.status)) return false;
+    if (priorityFilter.length > 0 && !priorityFilter.includes(t.priority)) return false;
+    if (rangeStart && toMonth(t.endDate) < rangeStart) return false;
+    if (rangeEnd && toMonth(t.startDate) > rangeEnd) return false;
     if (searchTerm && !t.title.toLowerCase().includes(searchTerm)) return false;
     return true;
   });
 
-  const activeFilterCount = [
-    phaseFilter !== "all",
-    memberFilter !== "all",
-    categoryFilter !== "all",
-    statusFilter !== "all",
-    priorityFilter !== "all",
-    searchTerm.length > 0,
-  ].filter(Boolean).length;
+  const activeFilterCount =
+    [memberFilter, categoryFilter, statusFilter, priorityFilter].filter((f) => f.length > 0).length +
+    (rangeStart || rangeEnd ? 1 : 0) +
+    (searchTerm.length > 0 ? 1 : 0);
 
   function clearFilters() {
-    setPhaseFilter("all");
-    setMemberFilter("all");
-    setCategoryFilter("all");
-    setStatusFilter("all");
-    setPriorityFilter("all");
+    setMemberFilter([]);
+    setCategoryFilter([]);
+    setStatusFilter([]);
+    setPriorityFilter([]);
+    setRangeStart("");
+    setRangeEnd("");
     setSearch("");
   }
 
@@ -88,8 +104,8 @@ export default function TimelinePage() {
     setModalOpen(false);
   }
 
-  const selectClass =
-    "rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300";
+  const dateInputClass =
+    "rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300";
 
   return (
     <div className="space-y-6">
@@ -97,7 +113,7 @@ export default function TimelinePage() {
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">時程規劃</h1>
           <p className="mt-1 max-w-2xl text-sm text-slate-500 dark:text-slate-400">
-            甘特圖以「負責事項類別」分組，一眼看出每個工作類別由誰負責、進行了多久。表格與甘特圖為同一份任務資料的兩種呈現方式，用下方篩選器縮小範圍，點擊任一任務即可編輯。
+            甘特圖以「負責事項類別」分組，一眼看出每個工作類別由誰負責、進行了多久。表格與甘特圖為同一份任務資料的兩種呈現方式，篩選條件可複選、疊加使用，方便一次比對或聚焦某幾項工作，點擊任一任務即可編輯。
           </p>
         </div>
         <button onClick={openNew} className="btn-primary shrink-0">
@@ -115,54 +131,24 @@ export default function TimelinePage() {
             placeholder="搜尋任務名稱…"
             className="w-48 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-600 placeholder:text-slate-400 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
           />
-          <select value={phaseFilter} onChange={(e) => setPhaseFilter(e.target.value)} className={selectClass}>
-            <option value="all">所有年度階段</option>
-            {phases.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name}
-              </option>
-            ))}
-          </select>
-          <select value={memberFilter} onChange={(e) => setMemberFilter(e.target.value)} className={selectClass}>
-            <option value="all">所有成員</option>
-            {team.map((m) => (
-              <option key={m.id} value={m.id}>
-                {m.name}
-              </option>
-            ))}
-          </select>
-          <select
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className={selectClass}
-          >
-            <option value="all">所有工作類別</option>
-            {usedCategories.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-          <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className={selectClass}>
-            <option value="all">所有狀態</option>
-            {statusOptions.map((s) => (
-              <option key={s} value={s}>
-                {statusLabel[s]}
-              </option>
-            ))}
-          </select>
-          <select
-            value={priorityFilter}
-            onChange={(e) => setPriorityFilter(e.target.value)}
-            className={selectClass}
-          >
-            <option value="all">所有優先度</option>
-            {priorityOptions.map((p) => (
-              <option key={p} value={p}>
-                {priorityLabel[p]}
-              </option>
-            ))}
-          </select>
+          <span className="text-xs font-medium text-slate-400">區間</span>
+          <input
+            type="month"
+            value={rangeStart}
+            min={fullRange.min}
+            max={rangeEnd || fullRange.max}
+            onChange={(e) => setRangeStart(e.target.value)}
+            className={dateInputClass}
+          />
+          <span className="text-xs text-slate-400">至</span>
+          <input
+            type="month"
+            value={rangeEnd}
+            min={rangeStart || fullRange.min}
+            max={fullRange.max}
+            onChange={(e) => setRangeEnd(e.target.value)}
+            className={dateInputClass}
+          />
           {activeFilterCount > 0 && (
             <button
               onClick={clearFilters}
@@ -172,6 +158,35 @@ export default function TimelinePage() {
             </button>
           )}
         </div>
+
+        <FilterChips
+          label="成員"
+          selected={memberFilter}
+          onToggle={(v) => setMemberFilter((f) => toggleIn(f, v))}
+          options={team.map((m) => ({
+            value: m.id,
+            label: m.name,
+            activeClass: `${memberColorClass[m.color]} border-transparent text-white`,
+          }))}
+        />
+        <FilterChips
+          label="工作類別"
+          selected={categoryFilter}
+          onToggle={(v) => setCategoryFilter((f) => toggleIn(f, v))}
+          options={usedCategories.map((c) => ({ value: c, label: c }))}
+        />
+        <FilterChips
+          label="狀態"
+          selected={statusFilter}
+          onToggle={(v) => setStatusFilter((f) => toggleIn(f, v))}
+          options={STATUS_OPTIONS.map((s) => ({ value: s, label: statusLabel[s] }))}
+        />
+        <FilterChips
+          label="優先度"
+          selected={priorityFilter}
+          onToggle={(v) => setPriorityFilter((f) => toggleIn(f, v))}
+          options={PRIORITY_OPTIONS.map((p) => ({ value: p, label: priorityLabel[p] }))}
+        />
 
         <div className="flex flex-wrap items-center gap-3 border-t border-slate-100 pt-3 dark:border-slate-800">
           <div className="inline-flex rounded-lg border border-slate-200 bg-white p-1 dark:border-slate-800 dark:bg-slate-900">

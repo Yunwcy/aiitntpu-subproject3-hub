@@ -27,11 +27,29 @@ export const priorityChipClass: Record<Priority, string> = {
   low: "bg-slate-50 text-slate-500 ring-1 ring-inset ring-slate-200 dark:bg-slate-900 dark:text-slate-400 dark:ring-slate-800",
 };
 
+// The full palette a member can be assigned. Kept larger than the current
+// 4-person team so new hires (see "團隊成員可以新增／對應成員變動") get a
+// distinct color too, without every lookup table needing an update.
+export const memberColorOptions = [
+  "emerald",
+  "sky",
+  "violet",
+  "amber",
+  "cyan",
+  "fuchsia",
+  "lime",
+  "indigo",
+] as const;
+
 export const memberColorClass: Record<string, string> = {
   emerald: "bg-emerald-500",
   sky: "bg-sky-500",
   violet: "bg-violet-500",
   amber: "bg-amber-500",
+  cyan: "bg-cyan-500",
+  fuchsia: "bg-fuchsia-500",
+  lime: "bg-lime-500",
+  indigo: "bg-indigo-500",
 };
 
 export const memberChipClass: Record<string, string> = {
@@ -39,6 +57,10 @@ export const memberChipClass: Record<string, string> = {
   sky: "bg-sky-50 text-sky-700 dark:bg-sky-950/40 dark:text-sky-300",
   violet: "bg-violet-50 text-violet-700 dark:bg-violet-950/40 dark:text-violet-300",
   amber: "bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300",
+  cyan: "bg-cyan-50 text-cyan-700 dark:bg-cyan-950/40 dark:text-cyan-300",
+  fuchsia: "bg-fuchsia-50 text-fuchsia-700 dark:bg-fuchsia-950/40 dark:text-fuchsia-300",
+  lime: "bg-lime-50 text-lime-700 dark:bg-lime-950/40 dark:text-lime-300",
+  indigo: "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300",
 };
 
 // Gantt bar fill: hue = primary (first-listed) assignee's member color,
@@ -71,6 +93,30 @@ export const memberBarClass: Record<string, Record<TaskStatus, string>> = {
     "in-progress": "bg-amber-600",
     todo: "bg-amber-400/70",
     blocked: "bg-amber-600",
+  },
+  cyan: {
+    done: "bg-cyan-400/35",
+    "in-progress": "bg-cyan-600",
+    todo: "bg-cyan-400/70",
+    blocked: "bg-cyan-600",
+  },
+  fuchsia: {
+    done: "bg-fuchsia-400/35",
+    "in-progress": "bg-fuchsia-600",
+    todo: "bg-fuchsia-400/70",
+    blocked: "bg-fuchsia-600",
+  },
+  lime: {
+    done: "bg-lime-400/35",
+    "in-progress": "bg-lime-600",
+    todo: "bg-lime-400/70",
+    blocked: "bg-lime-600",
+  },
+  indigo: {
+    done: "bg-indigo-400/35",
+    "in-progress": "bg-indigo-600",
+    todo: "bg-indigo-400/70",
+    blocked: "bg-indigo-600",
   },
 };
 

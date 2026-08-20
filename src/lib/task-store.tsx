@@ -13,7 +13,12 @@ import type { Task } from "@/lib/types";
 import { getTasks } from "@/lib/data-provider";
 import { sortTasks } from "@/lib/compute";
 
-const STORAGE_KEY = "revoice-hub:tasks:v1";
+// Bumping this key (v1 -> v2) is a deliberate cache-bust: anyone with an old
+// cached snapshot in localStorage (e.g. from adding a task and resetting
+// before a later data update) will simply find nothing under the new key
+// and fall back to the fresh default tasks, instead of staying pinned to
+// stale data indefinitely.
+const STORAGE_KEY = "revoice-hub:tasks:v2";
 
 export type NewTaskInput = Omit<Task, "id">;
 
